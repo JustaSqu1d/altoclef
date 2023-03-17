@@ -96,7 +96,7 @@ public class ShootArrowSimpleProjectileTask extends Task {
                     }
                 }
                 if (BeatMinecraft2Task.getConfig().renderDistanceManipulation) {
-                    // For farther crystals, the arrow may get stuck in the air, so we need to increase the simulation distance
+                    // For farther entities, the arrow may get stuck in the air, so we need to increase the simulation distance
                     MinecraftClient.getInstance().options.getSimulationDistance().setValue(32);
                 }
                 mod.getInputControls().release(Input.CLICK_RIGHT); // Release the arrow
@@ -114,7 +114,6 @@ public class ShootArrowSimpleProjectileTask extends Task {
 
     @Override
     public boolean isFinished(AltoClef mod) {
-        mod.getInputControls().release(Input.CLICK_RIGHT);
         return shot;
     }
 
