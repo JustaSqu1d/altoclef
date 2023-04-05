@@ -60,7 +60,7 @@ public class CustomCommand extends Command {
                 }
             }
             AltoClef.getCommandExecutor().execute(mod.getModSettings().getCommandPrefix() + commandToExecute.toString().replaceAll(",", "").replaceAll("\\?", ","));
-        }else{
+        } else {
 
         }
     }
