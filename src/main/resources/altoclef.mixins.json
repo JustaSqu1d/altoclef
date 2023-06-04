@@ -15,8 +15,7 @@
     "GameOverlayMixin",
     "PersistentProjectileEntityAccessor",
     "SlotClickMixin",
-    "WorldBlockModifiedMixin",
-    "DeathScreenAccessor"
+    "WorldBlockModifiedMixin"
   ],
   "client": [
     "ChatInputMixin",

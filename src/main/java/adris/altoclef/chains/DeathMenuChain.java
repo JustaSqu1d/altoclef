@@ -11,7 +11,8 @@ import net.minecraft.client.gui.screen.*;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
-import adris.altoclef.mixins.DeathScreenAccessor;
+
+import java.util.Objects;
 
 public class DeathMenuChain extends TaskChain {
 
@@ -80,20 +81,32 @@ public class DeathMenuChain extends TaskChain {
                     _deathCount++;
                     Debug.logMessage("RESPAWNING... (this is death #" + _deathCount + ")");
                     assert MinecraftClient.getInstance().player != null;
-                    String deathmessage = ((DeathScreenAccessor) screen).getMessage().getString(); //"(not implemented yet)"; //screen.children().toString();
+//                    String deathmessage = ((DeathScreenAccessor) screen).getMessage().getString(); //"(not implemented yet)"; //screen.children().toString();
                     MinecraftClient.getInstance().player.requestRespawn();
                     MinecraftClient.getInstance().setScreen(null);
-                    for (String i :  mod.getModSettings().getDeathCommand().split(" & ")) {
-                        String command = i.replace("{deathmessage}", deathmessage);
+                    for (String command :  mod.getModSettings().getDeathCommand().split(" & ")) {
+//                        String command = i.replace("{deathmessage}", deathmessage); // TODO: This is broken, fix it.
                         String prefix = mod.getModSettings().getCommandPrefix();
-                        while (MinecraftClient.getInstance().player.isAlive());
-                        if (command != ""){
-                            if (command.startsWith(prefix)) {
-                                AltoClef.getCommandExecutor().execute(command, () -> {}, e -> {e.printStackTrace();});
-                            } else if (command.startsWith("/")) {
-                                MinecraftClient.getInstance().player.networkHandler.sendChatCommand(command.substring(1));
-                            } else {
-                                MinecraftClient.getInstance().player.networkHandler.sendChatMessage(command);
+                        while (MinecraftClient.getInstance().player.isAlive()) {
+                            int tickInMS = 50;
+                            try {
+                                Thread.sleep(tickInMS);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        };
+                        if (!Objects.equals(command, "")) {
+                            try {
+                                if (command.startsWith(prefix)) {
+                                    AltoClef.getCommandExecutor().execute(command, () -> {
+                                    }, Throwable::printStackTrace);
+                                } else if (command.startsWith("/")) {
+                                    MinecraftClient.getInstance().player.networkHandler.sendChatCommand(command.substring(1));
+                                } else {
+                                    MinecraftClient.getInstance().player.networkHandler.sendChatMessage(command);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                         }
                     }
