@@ -222,6 +222,7 @@ public class AltoClef implements ModInitializer {
         getClientBaritoneSettings().freeLook.value = false;
         getClientBaritoneSettings().overshootTraverse.value = false;
         getClientBaritoneSettings().allowOvershootDiagonalDescend.value = true;
+        // Let baritone move items to hotbar to use them
         getClientBaritoneSettings().allowInventory.value = true;
         getClientBaritoneSettings().allowParkour.value = false;
         getClientBaritoneSettings().allowParkourAscend.value = false;
@@ -229,12 +230,17 @@ public class AltoClef implements ModInitializer {
         getClientBaritoneSettings().allowDiagonalDescend.value = false;
         getClientBaritoneSettings().allowDiagonalAscend.value = false;
         getClientBaritoneSettings().blocksToAvoid.value = List.of(Blocks.FLOWERING_AZALEA, Blocks.AZALEA,
-                Blocks.POWDER_SNOW, Blocks.BIG_DRIPLEAF, Blocks.BIG_DRIPLEAF_STEM, Blocks.CAVE_VINES,
-                Blocks.CAVE_VINES_PLANT, Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT, Blocks.SWEET_BERRY_BUSH,
-                Blocks.WARPED_ROOTS, Blocks.VINE, Blocks.GRASS, Blocks.FERN, Blocks.TALL_GRASS, Blocks.LARGE_FERN,
-                Blocks.SMALL_AMETHYST_BUD, Blocks.MEDIUM_AMETHYST_BUD, Blocks.LARGE_AMETHYST_BUD,
-                Blocks.AMETHYST_CLUSTER, Blocks.SCULK, Blocks.SCULK_VEIN);
-        // Let baritone move items to hotbar to use them
+                Blocks.POWDER_SNOW,
+                Blocks.BIG_DRIPLEAF, Blocks.BIG_DRIPLEAF_STEM,
+                Blocks.CAVE_VINES, Blocks.CAVE_VINES_PLANT,
+                Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT, Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT,
+                Blocks.SWEET_BERRY_BUSH,
+                Blocks.WARPED_ROOTS, Blocks.CRIMSON_ROOTS,
+                Blocks.SMALL_AMETHYST_BUD, Blocks.MEDIUM_AMETHYST_BUD, Blocks.LARGE_AMETHYST_BUD, Blocks.AMETHYST_CLUSTER,
+                Blocks.SCULK, Blocks.SCULK_VEIN, Blocks.SCULK_SENSOR, Blocks.SCULK_SHRIEKER, Blocks.SCULK_CATALYST);
+        getClientBaritoneSettings().blocksToAvoidBreaking.value = List.of(
+                Blocks.SCULK, Blocks.SCULK_VEIN, Blocks.SCULK_SENSOR, Blocks.SCULK_SHRIEKER, Blocks.SCULK_CATALYST
+        );
         // Reduces a bit of far rendering to save FPS
         getClientBaritoneSettings().fadePath.value = true;
         // Don't let baritone scan dropped items, we handle that ourselves.
@@ -256,6 +262,9 @@ public class AltoClef implements ModInitializer {
         getClientBaritoneSettings().planAheadFailureTimeoutMS.reset();
         // Was 100
         getClientBaritoneSettings().movementTimeoutTicks.reset();
+
+        getClientBaritoneSettings().mobAvoidanceCoefficient.value = 30.0;
+        getClientBaritoneSettings().mobAvoidanceRadius.value = 10;
     }
 
     // List all command sources here.
