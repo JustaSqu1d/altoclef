@@ -28,6 +28,7 @@ public class LocateStrongholdCoordinatesTask extends Task {
     private static final int SECOND_EYE_THROW_DISTANCE = 30; // target distance between first throw and second throw
 
     private final int _targetEyes;
+    private final int _minimumEyes;
     private final TimerGame _throwTimer = new TimerGame(5);
     private LocateStrongholdCoordinatesTask.EyeDirection _cachedEyeDirection = null;
     private LocateStrongholdCoordinatesTask.EyeDirection _cachedEyeDirection2 = null;
@@ -35,7 +36,12 @@ public class LocateStrongholdCoordinatesTask extends Task {
     private Vec3i _strongholdEstimatePos = null;
 
     public LocateStrongholdCoordinatesTask(int targetEyes) {
+        this(targetEyes, 12);
+    }
+
+    public LocateStrongholdCoordinatesTask(int targetEyes, int minimumEyes) {
         _targetEyes = targetEyes;
+        _minimumEyes = minimumEyes;
     }
 
     @SuppressWarnings("UnnecessaryLocalVariable")
@@ -67,7 +73,7 @@ public class LocateStrongholdCoordinatesTask extends Task {
         }
 
         // Pick up eye if we need to/want to.
-        if (mod.getItemStorage().getItemCount(Items.ENDER_EYE) < _targetEyes && mod.getEntityTracker().itemDropped(Items.ENDER_EYE) &&
+        if (mod.getItemStorage().getItemCount(Items.ENDER_EYE) < _minimumEyes && mod.getEntityTracker().itemDropped(Items.ENDER_EYE) &&
                 !mod.getEntityTracker().entityFound(EyeOfEnderEntity.class)) {
             setDebugState("Picking up dropped ender eye.");
             return new PickupDroppedItemTask(Items.ENDER_EYE, _targetEyes);
@@ -96,6 +102,12 @@ public class LocateStrongholdCoordinatesTask extends Task {
                 _cachedEyeDirection2.updateEyePos(_currentThrownEye.getPos());
             } else if (_cachedEyeDirection != null) {
                 _cachedEyeDirection.updateEyePos(_currentThrownEye.getPos());
+            }
+
+            if (mod.getEntityTracker().getClosestEntity(EyeOfEnderEntity.class).isPresent() &&
+                    !mod.getClientBaritone().getPathingBehavior().isPathing()) {
+                LookHelper.lookAt(mod,
+                        mod.getEntityTracker().getClosestEntity(EyeOfEnderEntity.class).get().getEyePos());
             }
 
             setDebugState("Waiting for eye to travel.");
