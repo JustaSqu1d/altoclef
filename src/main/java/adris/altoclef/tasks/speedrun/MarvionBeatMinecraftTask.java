@@ -78,20 +78,20 @@ public class MarvionBeatMinecraftTask extends Task {
     private static final Item[] COLLECT_IRON_ARMOR = ItemHelper.IRON_ARMORS;
     private static final Item[] COLLECT_EYE_ARMOR_END = ItemHelper.DIAMOND_ARMORS;
     private static final ItemTarget[] COLLECT_IRON_GEAR = combine(
+            toItemTargets(Items.IRON_INGOT, 23), // sword (2*3); pickaxe (3*3); shield (1); shears (2); flint and steel (1); and bucket (3*2) = 23
             toItemTargets(Items.IRON_SWORD, 2),
-            toItemTargets(Items.IRON_PICKAXE, 3),
-            toItemTargets(Items.IRON_INGOT, 23) // sword (2*3); pickaxe (3*3); shield (1); shears (2); flint and steel (1); and bucket (3*2) = 23
-    );
-    private static final ItemTarget[] COLLECT_EYE_GEAR = combine(
             toItemTargets(Items.STONE_SHOVEL),
             toItemTargets(Items.STONE_AXE),
+            toItemTargets(Items.DIAMOND_PICKAXE)
+    );
+    private static final ItemTarget[] COLLECT_EYE_GEAR = combine(
             toItemTargets(Items.DIAMOND_SWORD),
             toItemTargets(Items.DIAMOND_PICKAXE, 3),
             toItemTargets(Items.CRAFTING_TABLE)
     );
     private static final ItemTarget[] COLLECT_IRON_GEAR_MIN = combine(
             toItemTargets(Items.IRON_SWORD),
-            toItemTargets(Items.IRON_PICKAXE)
+            toItemTargets(Items.DIAMOND_PICKAXE)
     );
     private static final ItemTarget[] COLLECT_EYE_GEAR_MIN = combine(
             toItemTargets(Items.DIAMOND_SWORD),
@@ -1211,12 +1211,21 @@ public class MarvionBeatMinecraftTask extends Task {
                 }
             }
             if (mod.getItemStorage().getItemCount(Items.TWISTING_VINES) < TWISTING_VINES_COUNT_MIN) {
-                getTwistingVines = TaskCatalogue.getItemTask(Items.TWISTING_VINES, TWISTING_VINES_COUNT);
-                return getTwistingVines;
+                if (!mod.getBlockTracker().isTracking(Blocks.TWISTING_VINES) || !mod.getBlockTracker().isTracking(Blocks.TWISTING_VINES_PLANT)) {
+                    mod.getBlockTracker().trackBlock(Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT);
+                }
+
+                if (mod.getBlockTracker().anyFound(Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT)) {
+                    getTwistingVines = TaskCatalogue.getItemTask(Items.TWISTING_VINES, TWISTING_VINES_COUNT);
+                    return getTwistingVines;
+                } else {
+                    return new SearchChunkForBlockTask(Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT, Blocks.WARPED_HYPHAE, Blocks.WARPED_NYLIUM);
+                }
+
             }
             // Search for warped forests this way...
             setDebugState("Searching Warped Forest");
-            return new SearchWithinBiomeTask(BiomeKeys.WARPED_FOREST);
+            return new SearchChunkForBlockTask(Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT, Blocks.WARPED_HYPHAE, Blocks.WARPED_NYLIUM);
         }
     }
 
