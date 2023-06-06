@@ -104,6 +104,8 @@ public class MarvionBeatMinecraftTask extends Task {
     private static final ItemTarget[] IRON_GEAR_MIN = combine(
             toItemTargets(Items.IRON_SWORD, 2)
     );
+    private static final int TWISTING_VINES_COUNT = 28;
+    private static final int TWISTING_VINES_COUNT_MIN = 14;
     private static final int END_PORTAL_FRAME_COUNT = 12;
     private static final double END_PORTAL_BED_SPAWN_RANGE = 8;
     // We don't want curse of binding
@@ -1200,7 +1202,7 @@ public class MarvionBeatMinecraftTask extends Task {
         } else {
             if ((mod.getEntityTracker().entityFound(EndermanEntity.class) ||
                     mod.getEntityTracker().itemDropped(Items.ENDER_PEARL)) &&
-                    mod.getItemStorage().getItemCount(Items.TWISTING_VINES) > 14) {
+                    mod.getItemStorage().getItemCount(Items.TWISTING_VINES) > TWISTING_VINES_COUNT_MIN) {
                 Optional<Entity> toKill = mod.getEntityTracker().getClosestEntity(EndermanEntity.class);
                 if (toKill.isPresent()) {
                     if (mod.getEntityTracker().isEntityReachable(toKill.get())) {
@@ -1208,8 +1210,8 @@ public class MarvionBeatMinecraftTask extends Task {
                     }
                 }
             }
-            if (mod.getItemStorage().getItemCount(Items.TWISTING_VINES) < 14) {
-                getTwistingVines = TaskCatalogue.getItemTask(Items.TWISTING_VINES, 28);
+            if (mod.getItemStorage().getItemCount(Items.TWISTING_VINES) < TWISTING_VINES_COUNT_MIN) {
+                getTwistingVines = TaskCatalogue.getItemTask(Items.TWISTING_VINES, TWISTING_VINES_COUNT);
                 return getTwistingVines;
             }
             // Search for warped forests this way...
