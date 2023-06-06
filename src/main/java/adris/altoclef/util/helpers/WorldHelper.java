@@ -32,8 +32,8 @@ import java.util.*;
  */
 public interface WorldHelper {
 
-    // God bless 1.18
-    int WORLD_CEILING_Y = 255;
+    // God bless 1.19
+    int WORLD_CEILING_Y = 319;
     int WORLD_FLOOR_Y = -64;
 
     /**
