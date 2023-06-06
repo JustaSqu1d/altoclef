@@ -145,7 +145,7 @@ public class PlaceBedAndSetSpawnTask extends Task {
             Debug.logMessage("Searching new bed region.");
             _currentBedRegion = null;
         }
-        if (mod.getPlayer().isTouchingWater() && mod.getItemStorage().hasItem(ItemHelper.BED)) {
+        if (mod.getPlayer().isTouchingWater()) {
             setDebugState("We are in water. Wandering");
             _currentBedRegion = null;
             return new TimeoutWanderTask();
