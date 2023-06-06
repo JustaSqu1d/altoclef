@@ -380,7 +380,8 @@ public class InteractWithBlockTask extends Task {
 
         Optional<Rotation> reachable = getCurrentReach();
         if (reachable.isPresent()) {
-            if (mod.getClientBaritone().getPlayerContext().isLookingAt(_target)) {
+            LookHelper.lookAt(mod, reachable.get());
+            if (LookHelper.isLookingAt(mod, reachable.get())) {
                 if (_toUse != null) {
                     mod.getSlotHandler().forceEquipItem(_toUse, false);
                 } else {
@@ -395,7 +396,6 @@ public class InteractWithBlockTask extends Task {
                 }
                 //mod.getClientBaritone().getInputOverrideHandler().setInputForceState(_interactInput, true);
             }
-            LookHelper.lookAt(mod, reachable.get());
             return ClickResponse.WAIT_FOR_CLICK;
         }
         if (_shiftClick) {
