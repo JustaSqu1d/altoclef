@@ -90,11 +90,12 @@ public class MarvionBeatMinecraftTask extends Task {
             toItemTargets(Items.CRAFTING_TABLE)
     );
     private static final ItemTarget[] COLLECT_IRON_GEAR_MIN = combine(
-            toItemTargets(Items.IRON_SWORD, 2)
+            toItemTargets(Items.IRON_SWORD),
+            toItemTargets(Items.IRON_PICKAXE)
     );
     private static final ItemTarget[] COLLECT_EYE_GEAR_MIN = combine(
             toItemTargets(Items.DIAMOND_SWORD),
-            toItemTargets(Items.DIAMOND_PICKAXE, 3)
+            toItemTargets(Items.DIAMOND_PICKAXE)
     );
     private static final ItemTarget[] IRON_GEAR = combine(
             toItemTargets(Items.IRON_SWORD, 2),
