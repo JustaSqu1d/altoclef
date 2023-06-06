@@ -241,6 +241,8 @@ public class AltoClef implements ModInitializer {
         getClientBaritoneSettings().blocksToAvoidBreaking.value = List.of(
                 Blocks.SCULK, Blocks.SCULK_VEIN, Blocks.SCULK_SENSOR, Blocks.SCULK_SHRIEKER, Blocks.SCULK_CATALYST
         );
+        // Don't let baritone mine with sword
+        getClientBaritoneSettings().useSwordToMine.value = false;
         // Reduces a bit of far rendering to save FPS
         getClientBaritoneSettings().fadePath.value = true;
         // Don't let baritone scan dropped items, we handle that ourselves.
