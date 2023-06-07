@@ -276,7 +276,7 @@ public class MarvionBeatMinecraftTask extends Task {
         if (!StorageHelper.isArmorEquipped(mod, Items.GOLDEN_HELMET) && !mod.getItemStorage().hasItemInventoryOnly(Items.GOLDEN_HELMET)) {
             lootable.add(Items.GOLDEN_HELMET);
         }
-        if ((mod.getItemStorage().getItemCountInventoryOnly(Items.GOLD_INGOT) < 4 && !StorageHelper.isArmorEquipped(mod, Items.GOLDEN_HELMET) && !mod.getItemStorage().hasItemInventoryOnly(Items.GOLDEN_HELMET)) || _config.barterPearlsInsteadOfEndermanHunt) {
+        if ((mod.getItemStorage().getItemCountInventoryOnly(Items.GOLD_INGOT) < 5 && !StorageHelper.isArmorEquipped(mod, Items.GOLDEN_HELMET) && !mod.getItemStorage().hasItemInventoryOnly(Items.GOLDEN_HELMET)) || _config.barterPearlsInsteadOfEndermanHunt) {
             lootable.add(Items.GOLD_INGOT);
         }
         if (!mod.getItemStorage().hasItemInventoryOnly(Items.FLINT_AND_STEEL)) {
