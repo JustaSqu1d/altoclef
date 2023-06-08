@@ -274,10 +274,12 @@ public class KillEnderDragonTask extends Task {
                 for (EnderDragonEntity dragon : dragons) {
                     Phase dragonPhase = dragon.getPhaseManager().getCurrent();
                     //Debug.logInternal("PHASE: " + dragonPhase);
-                    boolean perchingOrGettingReady = dragonPhase.getType() == PhaseType.LANDING || dragonPhase.isSittingOrHovering();
+                    boolean perchingOrGettingReady = dragonPhase.getType() == PhaseType.LANDING || dragonPhase.getType() == PhaseType.LANDING_APPROACH;
+                    boolean isPerched = dragonPhase.getType() == PhaseType.SITTING_ATTACKING || dragonPhase.getType() == PhaseType.SITTING_SCANNING || dragonPhase.getType() == PhaseType.SITTING_FLAMING;
+                    Debug.logMessage(dragonPhase.getType().toString());
                     switch (_mode) {
                         case RAILING -> {
-                            if (!perchingOrGettingReady) {
+                            if (!perchingOrGettingReady && !isPerched) {
                                 Debug.logMessage("Dragon no longer perching.");
                                 mod.getClientBaritone().getCustomGoalProcess().onLostControl();
                                 _mode = Mode.WAITING_FOR_PERCH;
@@ -286,7 +288,7 @@ public class KillEnderDragonTask extends Task {
                             //DamageSource.DRAGON_BREATH
                             Entity head = dragon.head;
                             // Go for the head
-                            if (head.isInRange(mod.getPlayer(), 7.5) && dragon.ticksSinceDeath <= 1) {
+                            if (head.isInRange(mod.getPlayer(), 6) && dragon.ticksSinceDeath <= 1) {
                                 // Equip weapon
                                 AbstractKillEntityTask.equipWeapon(mod);
                                 // Look torwards da dragon
@@ -329,7 +331,7 @@ public class KillEnderDragonTask extends Task {
                         }
                         case WAITING_FOR_PERCH -> {
                             stopHitting(mod);
-                            if (perchingOrGettingReady) {
+                            if (perchingOrGettingReady || isPerched) {
                                 // We're perching!!
                                 mod.getClientBaritone().getCustomGoalProcess().onLostControl();
                                 Debug.logMessage("Dragon perching detected. Dabar duosiu į snuki.");
