@@ -86,6 +86,7 @@ public class MarvionBeatMinecraftTask extends Task {
     private static final ItemTarget[] COLLECT_EYE_GEAR = combine(
             toItemTargets(Items.DIAMOND_SWORD),
             toItemTargets(Items.DIAMOND_PICKAXE, 3),
+            toItemTargets(Items.BUCKET,2),
             toItemTargets(Items.CRAFTING_TABLE)
     );
     private static final ItemTarget[] COLLECT_IRON_GEAR_MIN = combine(
@@ -98,10 +99,13 @@ public class MarvionBeatMinecraftTask extends Task {
     );
     private static final ItemTarget[] IRON_GEAR = combine(
             toItemTargets(Items.IRON_SWORD, 2),
-            toItemTargets(Items.IRON_PICKAXE, 3)
+            toItemTargets(Items.STONE_SHOVEL),
+            toItemTargets(Items.STONE_AXE),
+            toItemTargets(Items.DIAMOND_PICKAXE)
     );
     private static final ItemTarget[] IRON_GEAR_MIN = combine(
-            toItemTargets(Items.IRON_SWORD, 2)
+            toItemTargets(Items.IRON_SWORD, 2),
+            toItemTargets(Items.DIAMOND_PICKAXE)
     );
     private static final int TWISTING_VINES_COUNT = 28;
     private static final int TWISTING_VINES_COUNT_MIN = 14;
