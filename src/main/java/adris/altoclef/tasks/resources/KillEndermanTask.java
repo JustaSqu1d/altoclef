@@ -6,19 +6,12 @@ import adris.altoclef.tasks.entity.KillEntitiesTask;
 import adris.altoclef.tasks.entity.KillEntityTask;
 import adris.altoclef.tasksystem.Task;
 import adris.altoclef.util.ItemTarget;
-import adris.altoclef.util.helpers.LookHelper;
-import adris.altoclef.util.time.TimerGame;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.item.Items;
-
-import java.util.Optional;
 
 public class KillEndermanTask extends ResourceTask {
 
     private final int _count;
-
-    private final TimerGame _lookDelay = new TimerGame(0.2);
 
     public KillEndermanTask(int count) {
         super(new ItemTarget(Items.ENDER_PEARL, count));
