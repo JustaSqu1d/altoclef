@@ -4,10 +4,10 @@ import adris.altoclef.AltoClef;
 import adris.altoclef.commandsystem.ArgParser;
 import adris.altoclef.commandsystem.Command;
 import adris.altoclef.tasks.speedrun.BeatMinecraft2Task;
-
+@Deprecated
 public class GamerCommand extends Command {
     public GamerCommand() {
-        super("gamer", "Beats the game");
+        super("gamer2", "Beats the game");
     }
 
     @Override

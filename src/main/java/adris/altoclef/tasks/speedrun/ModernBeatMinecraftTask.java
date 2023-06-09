@@ -52,7 +52,7 @@ import java.util.stream.Stream;
 import static net.minecraft.client.MinecraftClient.getInstance;
 
 @SuppressWarnings("ALL")
-public class MarvionBeatMinecraftTask extends Task {
+public class ModernBeatMinecraftTask extends Task {
     private static final Block[] TRACK_BLOCKS = new Block[]{
             Blocks.BLAST_FURNACE,
             Blocks.FURNACE,
@@ -101,11 +101,13 @@ public class MarvionBeatMinecraftTask extends Task {
             toItemTargets(Items.IRON_SWORD, 2),
             toItemTargets(Items.STONE_SHOVEL),
             toItemTargets(Items.STONE_AXE),
-            toItemTargets(Items.DIAMOND_PICKAXE)
+            toItemTargets(Items.DIAMOND_PICKAXE),
+            toItemTargets(Items.SHIELD)
     );
     private static final ItemTarget[] IRON_GEAR_MIN = combine(
             toItemTargets(Items.IRON_SWORD, 2),
-            toItemTargets(Items.DIAMOND_PICKAXE)
+            toItemTargets(Items.DIAMOND_PICKAXE),
+            toItemTargets(Items.SHIELD)
     );
     private static final int TWISTING_VINES_COUNT = 28;
     private static final int TWISTING_VINES_COUNT_MIN = 14;
@@ -171,7 +173,7 @@ public class MarvionBeatMinecraftTask extends Task {
     private Task getBedTask;
     private Task getTwistingVines;
 
-    public MarvionBeatMinecraftTask() {
+    public ModernBeatMinecraftTask() {
         _locateStrongholdTask = new GoToStrongholdPortalTask(_config.targetEyes);
         _buildMaterialsTask = new GetBuildingMaterialsTask(_config.buildMaterialCount);
     }
@@ -311,12 +313,12 @@ public class MarvionBeatMinecraftTask extends Task {
 
     @Override
     protected boolean isEqual(Task other) {
-        return other instanceof MarvionBeatMinecraftTask;
+        return other instanceof ModernBeatMinecraftTask;
     }
 
     @Override
     protected String toDebugString() {
-        return "Beating the game (Marvion version).";
+        return "Beating the game (Modern version).";
     }
 
     private boolean endPortalFound(AltoClef mod, BlockPos endPortalCenter) {
