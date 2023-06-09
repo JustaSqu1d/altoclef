@@ -2,6 +2,7 @@
 
 - Target one neutral mob at a time, and kill it. Then move on to the next one.
 - Re-write the tracking system to be more efficient and less buggy.
+- Re-write the config system to support the native config system.
 
 # TODO's: Long Term Future Features
 
