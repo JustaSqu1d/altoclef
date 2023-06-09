@@ -224,6 +224,7 @@ public class AltoClef implements ModInitializer {
         getClientBaritoneSettings().allowOvershootDiagonalDescend.value = true;
         // Let baritone move items to hotbar to use them
         getClientBaritoneSettings().allowInventory.value = true;
+        // Don't let baritone do stupid things
         getClientBaritoneSettings().allowParkour.value = false;
         getClientBaritoneSettings().allowParkourAscend.value = false;
         getClientBaritoneSettings().allowParkourPlace.value = false;
@@ -235,7 +236,7 @@ public class AltoClef implements ModInitializer {
                 Blocks.CAVE_VINES, Blocks.CAVE_VINES_PLANT,
                 Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT, Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT,
                 Blocks.SWEET_BERRY_BUSH,
-                Blocks.WARPED_ROOTS, Blocks.CRIMSON_ROOTS,
+//                Blocks.WARPED_ROOTS, Blocks.CRIMSON_ROOTS,
                 Blocks.SMALL_AMETHYST_BUD, Blocks.MEDIUM_AMETHYST_BUD, Blocks.LARGE_AMETHYST_BUD, Blocks.AMETHYST_CLUSTER,
                 Blocks.SCULK, Blocks.SCULK_VEIN, Blocks.SCULK_SENSOR, Blocks.SCULK_SHRIEKER, Blocks.SCULK_CATALYST);
         getClientBaritoneSettings().blocksToAvoidBreaking.value = List.of(
