@@ -52,7 +52,7 @@ import java.util.stream.Stream;
 import static net.minecraft.client.MinecraftClient.getInstance;
 
 @SuppressWarnings("ALL")
-public class ModernBeatMinecraftTask extends Task {
+public class BeatMinecraft3Task extends Task {
     private static final Block[] TRACK_BLOCKS = new Block[]{
             Blocks.BLAST_FURNACE,
             Blocks.FURNACE,
@@ -173,7 +173,7 @@ public class ModernBeatMinecraftTask extends Task {
     private Task getBedTask;
     private Task getTwistingVines;
 
-    public ModernBeatMinecraftTask() {
+    public BeatMinecraft3Task() {
         _locateStrongholdTask = new GoToStrongholdPortalTask(_config.targetEyes);
         _buildMaterialsTask = new GetBuildingMaterialsTask(_config.buildMaterialCount);
     }
@@ -313,7 +313,7 @@ public class ModernBeatMinecraftTask extends Task {
 
     @Override
     protected boolean isEqual(Task other) {
-        return other instanceof ModernBeatMinecraftTask;
+        return other instanceof BeatMinecraft3Task;
     }
 
     @Override
