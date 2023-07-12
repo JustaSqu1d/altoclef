@@ -7,7 +7,7 @@ import adris.altoclef.tasks.speedrun.BeatMinecraft3Task;
 
 public class GamerCommand extends Command {
     public GamerCommand() {
-        super("gamer", "Beats the game (Modern version).");
+        super("gamer", "Beats the game (Modern version)");
     }
 
     @Override
