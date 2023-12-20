@@ -219,9 +219,9 @@ public interface LookHelper {
     }
 
     static void lookAt(AltoClef mod, Rotation rotation) {
-        mod.getClientBaritone().getLookBehavior().updateTarget(rotation, true);
         mod.getPlayer().setYaw(rotation.getYaw());
         mod.getPlayer().setPitch(rotation.getPitch());
+//        mod.getClientBaritone().getLookBehavior().updateTarget(rotation, false);
     }
 
     static void lookAt(AltoClef mod, Vec3d toLook) {
@@ -235,6 +235,25 @@ public interface LookHelper {
             target.add(side.getVector().getX() * 0.5, side.getVector().getY() * 0.5, side.getVector().getZ() * 0.5);
         }
         lookAt(mod, target);
+    }
+
+    static void baritoneLookAt(AltoClef mod, Rotation rotation) {
+        mod.getPlayer().setYaw(rotation.getYaw());
+        mod.getPlayer().setPitch(rotation.getPitch());
+        mod.getClientBaritone().getLookBehavior().updateTarget(rotation, false);
+    }
+
+    static void baritoneLookAt(AltoClef mod, Vec3d toLook) {
+        Rotation targetRotation = getLookRotation(mod, toLook);
+        baritoneLookAt(mod, targetRotation);
+    }
+
+    static void baritoneLookAt(AltoClef mod, BlockPos toLook, Direction side) {
+        Vec3d target = new Vec3d(toLook.getX() + 0.5, toLook.getY() + 0.5, toLook.getZ() + 0.5);
+        if (side != null) {
+            target.add(side.getVector().getX() * 0.5, side.getVector().getY() * 0.5, side.getVector().getZ() * 0.5);
+        }
+        baritoneLookAt(mod, target);
     }
 
     static void lookAt(AltoClef mod, BlockPos toLook) {

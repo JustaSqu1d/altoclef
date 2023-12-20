@@ -163,8 +163,19 @@ public class KillEnderDragonWithBedsTask extends Task {
                         assert bedfoot != null;
                         Vec3d headPos = dragon.head.getBoundingBox().getCenter(); // dragon.head.getPos();
                         double dist = headPos.distanceTo(WorldHelper.toVec3d(bedfoot));
-                        Debug.logMessage("Dist: " + dist);
-                        if (dist < BeatMinecraft2Task.getConfig().dragonHeadCloseEnoughClickBedRange) {
+                        Debug.logMessage("Dist: " + dist + " Health: " + dragon.getHealth());
+
+                        Vec3d target = new Vec3d(bedfoot.getX() + 0.5, bedfoot.getY() + 0.5, bedfoot.getZ() + 0.5);
+                        target.add(Direction.UP.getVector().getX() * 0.5, Direction.UP.getVector().getY() * 0.5, Direction.UP.getVector().getZ() * 0.5);
+                        Rotation targetRotation = getLookRotation(mod, target);
+
+                        if (dist + 10 < BeatMinecraft3Task.getConfig().dragonHeadCloseEnoughClickBedRange) {
+                            LookHelper.baritoneLookAt(mod, targetRotation);
+                        } else {
+                            LookHelper.lookAt(mod, targetRotation);
+                        }
+
+                        if (dist < BeatMinecraft3Task.getConfig().dragonHeadCloseEnoughClickBedRange) {
                             // Interact with the bed.
                             return new InteractWithBlockTask(bedTargetPosition);
                         }
