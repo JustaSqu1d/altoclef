@@ -85,20 +85,29 @@ public class ShootArrowSimpleProjectileTask extends Task {
             return null;
         }
 
-            mod.getSlotHandler().forceEquipItem(Items.BOW);
+        Rotation lookTarget = calculateThrowLook(mod, target);
+        LookHelper.lookAt(mod, lookTarget);
 
-            if (LookHelper.isLookingAt(mod, lookTarget) && !shooting) {
-                mod.getInputControls().hold(Input.CLICK_RIGHT);
-                shooting = true;
-                _shotTimer.reset();
-            }
-            if (shooting && charged) {
-                List<ArrowEntity> arrow = mod.getEntityTracker().getTrackedEntities(ArrowEntity.class);
-                // If any of the arrows belong to us and are moving, do not shoot yet
-                // Prevents from shooting multiple arrows to the same target
-                // TODO: Map each arrow to a target and only shoot if there is no arrow for that target
-                for (ArrowEntity a : arrow) {
-                    if (a.getOwner() == mod.getPlayer() && a.getVelocity().length() > 0.1) {
+        // check if we are holding a bow
+        boolean charged = mod.getPlayer().getItemUseTime() > 20 && mod.getPlayer().getActiveItem().getItem() == Items.BOW;
+
+        mod.getSlotHandler().forceEquipItem(Items.BOW);
+
+        if (LookHelper.isLookingAt(mod, lookTarget) && !shooting) {
+            mod.getInputControls().hold(Input.CLICK_RIGHT);
+            shooting = true;
+            _shotTimer.reset();
+        }
+        if (shooting && charged) {
+            List<ArrowEntity> arrows = mod.getEntityTracker().getTrackedEntities(ArrowEntity.class);
+            // If any of the arrows belong to us and are moving, do not shoot yet
+            // Prevents from shooting multiple arrows to the same target
+            for (ArrowEntity arrow : arrows) {
+                if (arrow.getOwner() == mod.getPlayer()) {
+                    Vec3d velocity = arrow.getVelocity();
+                    Vec3d delta = target.getPos().subtract(arrow.getPos());
+                    boolean isMovingTowardsTarget = velocity.dotProduct(delta) > 0;
+                    if (isMovingTowardsTarget) {
                         return null;
                     }
                 }
