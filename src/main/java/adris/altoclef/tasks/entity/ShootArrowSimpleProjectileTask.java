@@ -96,14 +96,14 @@ public class ShootArrowSimpleProjectileTask extends Task {
                         return null;
                     }
                 }
-                if (BeatMinecraft3Task.getConfig().renderDistanceManipulation) {
-                    // For farther entities, the arrow may get stuck in the air, so we need to increase the simulation distance
-                    MinecraftClient.getInstance().options.getSimulationDistance().setValue(32);
-                }
-                mod.getInputControls().release(Input.CLICK_RIGHT); // Release the arrow
-                shot = true;
-                return null;
             }
+
+            if (BeatMinecraft3Task.getConfig().renderDistanceManipulation && MinecraftClient.getInstance().options.getSimulationDistance().getValue() < 32) {
+                // For farther entities, the arrow may get stuck in the air, so we need to increase the simulation distance
+                MinecraftClient.getInstance().options.getSimulationDistance().setValue(32);
+            }
+            mod.getInputControls().release(Input.CLICK_RIGHT); // Release the arrow
+            shot = true;
         }
         return null;
     }
