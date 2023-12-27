@@ -10,11 +10,15 @@ import baritone.api.utils.Rotation;
 import baritone.api.utils.input.Input;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ShootArrowSimpleProjectileTask extends Task {
@@ -24,6 +28,8 @@ public class ShootArrowSimpleProjectileTask extends Task {
     private boolean shot = false;
 
     private final TimerGame _shotTimer = new TimerGame(1);
+
+    private final float MAX_ARROW_DAMAGE = 6.0f;
 
     public ShootArrowSimpleProjectileTask(Entity target) {
         this.target = target;
@@ -70,7 +76,8 @@ public class ShootArrowSimpleProjectileTask extends Task {
     }
 
     private static float Vec3dToYaw(AltoClef mod, Vec3d vec) {
-        return mod.getPlayer().getYaw() + MathHelper.wrapDegrees((float) Math.toDegrees(Math.atan2(vec.getZ() - mod.getPlayer().getZ(), vec.getX() - mod.getPlayer().getX())) - 90f - mod.getPlayer().getYaw());
+        return (mod.getPlayer().getYaw() +
+        MathHelper.wrapDegrees((float) Math.toDegrees(Math.atan2(vec.getZ() - mod.getPlayer().getZ(), vec.getX() - mod.getPlayer().getX())) - 90f - mod.getPlayer().getYaw()));
     }
 
     @Override
@@ -78,7 +85,6 @@ public class ShootArrowSimpleProjectileTask extends Task {
         setDebugState("Shooting projectile");
         List<Item> requiredArrows = Arrays.asList(Items.ARROW, Items.SPECTRAL_ARROW, Items.TIPPED_ARROW);
 
-            boolean charged = mod.getPlayer().getItemUseTime() > 20;
         if (!(mod.getItemStorage().hasItem(Items.BOW) &&
                 requiredArrows.stream().anyMatch(mod.getItemStorage()::hasItem))) {
             Debug.logMessage("Missing items, stopping.");
