@@ -40,10 +40,12 @@ public class ShootArrowSimpleProjectileTask extends Task {
         velocity = (velocity * velocity + velocity * 2) / 3;
         if (velocity > 1) velocity = 1;
 
-        // Positions
-        double posX = target.getPos().getX() + (target.getPos().getX() - target.prevX);
-        double posY = target.getPos().getY() + (target.getPos().getY() - target.prevY);
-        double posZ = target.getPos().getZ() + (target.getPos().getZ() - target.prevZ);
+        // Find the position of the center
+        Vec3d targetCenter = target.getBoundingBox().getCenter();
+
+        double posX = targetCenter.getX();
+        double posY = targetCenter.getY();
+        double posZ = targetCenter.getZ();
 
         // Adjusting for hitbox heights
         posY -= 1.9f - target.getHeight();
