@@ -76,6 +76,7 @@ public class ShootArrowSimpleProjectileTask extends Task {
         if (mod.getItemStorage().hasItem(Items.BOW) && (mod.getItemStorage().hasItem(Items.ARROW) || mod.getItemStorage().hasItem(Items.SPECTRAL_ARROW))) {
             Rotation lookTarget = calculateThrowLook(mod, target);
             LookHelper.lookAt(mod, lookTarget);
+        setDebugState("Shooting projectile");
 
             boolean charged = mod.getPlayer().getItemUseTime() > 20;
 
