@@ -25,8 +25,7 @@ import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.DragonFireballEntity;
-import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.entity.projectile.*;
 import net.minecraft.entity.projectile.thrown.PotionEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -492,7 +491,7 @@ public class MobDefenseChain extends SingleTaskChain {
         try {
             if (!projectiles.isEmpty()) {
                 for (CachedProjectile projectile : projectiles) {
-                    if (projectile.position.squaredDistanceTo(mod.getPlayer().getPos()) < 150) {
+                    if (projectile.position.squaredDistanceTo(mod.getPlayer().getPos()) < 16 * 16) {
                         boolean isGhastBall = projectile.projectileType == FireballEntity.class;
                         if (isGhastBall) {
                             Optional<Entity> ghastBall = mod.getEntityTracker().getClosestEntity(FireballEntity.class);
@@ -507,6 +506,17 @@ public class MobDefenseChain extends SingleTaskChain {
                         if (projectile.projectileType == DragonFireballEntity.class) {
                             // Ignore dragon fireballs
                             return false;
+                        }
+
+                        if (projectile.projectileType == ArrowEntity.class || projectile.projectileType == SpectralArrowEntity.class || projectile.projectileType == SmallFireballEntity.class) {
+                            // check if the velocity of the projectile is going away from us
+                            // oh no fancy math
+                            Vec3d velocity = projectile.velocity;
+                            Vec3d delta = mod.getPlayer().getPos().subtract(projectile.position);
+                            if (velocity.dotProduct(delta) < 0) {
+                                // Arrow is going away from us, ignore it.
+                                continue;
+                            }
                         }
 
                         Vec3d expectedHit = ProjectileHelper.calculateArrowClosestApproach(projectile, mod.getPlayer());
