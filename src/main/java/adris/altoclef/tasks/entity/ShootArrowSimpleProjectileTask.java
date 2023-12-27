@@ -75,12 +75,15 @@ public class ShootArrowSimpleProjectileTask extends Task {
 
     @Override
     protected Task onTick(AltoClef mod) {
-        if (mod.getItemStorage().hasItem(Items.BOW) && (mod.getItemStorage().hasItem(Items.ARROW) || mod.getItemStorage().hasItem(Items.SPECTRAL_ARROW))) {
-            Rotation lookTarget = calculateThrowLook(mod, target);
-            LookHelper.lookAt(mod, lookTarget);
         setDebugState("Shooting projectile");
+        List<Item> requiredArrows = Arrays.asList(Items.ARROW, Items.SPECTRAL_ARROW, Items.TIPPED_ARROW);
 
             boolean charged = mod.getPlayer().getItemUseTime() > 20;
+        if (!(mod.getItemStorage().hasItem(Items.BOW) &&
+                requiredArrows.stream().anyMatch(mod.getItemStorage()::hasItem))) {
+            Debug.logMessage("Missing items, stopping.");
+            return null;
+        }
 
             mod.getSlotHandler().forceEquipItem(Items.BOW);
 
