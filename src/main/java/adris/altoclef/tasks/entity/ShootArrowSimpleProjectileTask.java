@@ -1,7 +1,7 @@
 package adris.altoclef.tasks.entity;
 
 import adris.altoclef.AltoClef;
-import adris.altoclef.tasks.speedrun.BeatMinecraft2Task;
+import adris.altoclef.Debug;
 import adris.altoclef.tasks.speedrun.BeatMinecraft3Task;
 import adris.altoclef.tasksystem.Task;
 import adris.altoclef.util.helpers.LookHelper;
@@ -55,11 +55,11 @@ public class ShootArrowSimpleProjectileTask extends Task {
         // Calculate the pitch
         double hDistance = Math.sqrt(relativeX * relativeX + relativeZ * relativeZ);
         double hDistanceSq = hDistance * hDistance;
-        float g = 0.006f;
+        final float g = 0.006f;
         float velocitySq = velocity * velocity;
         float pitch = (float) -Math.toDegrees(Math.atan((velocitySq - Math.sqrt(velocitySq * velocitySq - g * (g * hDistanceSq + 2 * relativeY * velocitySq))) / (g * hDistance)));
 
-//         Set player rotation
+        // Set player rotation
         if (Float.isNaN(pitch)) {
             return new Rotation(target.getYaw(), target.getPitch());
         } else {
@@ -125,6 +125,6 @@ public class ShootArrowSimpleProjectileTask extends Task {
 
     @Override
     protected String toDebugString() {
-        return "Shooting arrow at " + target.getDisplayName().toString();
+        return "Shooting arrow at " + target.getType().getTranslationKey();
     }
 }
