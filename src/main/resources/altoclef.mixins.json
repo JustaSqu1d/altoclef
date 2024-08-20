@@ -12,7 +12,6 @@
     "ClientPlayerInteractionAccessor",
     "ClientUIMixin",
     "DeathScreenAccessor",
-    "EntityAccessor",
     "GameOverlayMixin",
     "PersistentProjectileEntityAccessor",
     "SlotClickMixin",

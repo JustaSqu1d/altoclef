@@ -1,7 +1,6 @@
 package adris.altoclef.util.helpers;
 
 import adris.altoclef.AltoClef;
-import adris.altoclef.Debug;
 import adris.altoclef.util.slots.Slot;
 import baritone.api.BaritoneAPI;
 import baritone.api.utils.IPlayerContext;
@@ -47,7 +46,7 @@ public interface LookHelper {
         // Check if the side is null
         if (side == null) {
             // Calculate the reachable rotation from the player's position to the target position
-            reachableRotation = RotationUtils.reachable(context, target, context.playerController().getBlockReachDistance());
+            reachableRotation = RotationUtils.reachable(context, target);
         } else {
             // Calculate the center offset vector based on the side direction
             Vec3i sideVector = side.getVector();
@@ -90,8 +89,6 @@ public interface LookHelper {
      * @return An Optional containing the Rotation if reach is possible, or an empty Optional otherwise.
      */
     static Optional<Rotation> getReach(BlockPos target) {
-        // Log the target position
-        Debug.logInternal("Target: " + target);
 
         // Delegate to the overloaded method with a null entity
         return getReach(target, null);
@@ -521,6 +518,24 @@ public interface LookHelper {
      *
      * @param mod      The instance of AltoClef.
      * @param rotation The desired rotation to look at.
+     * @param withBaritone Whether to use Baritone to look.
+     */
+    static void lookAt(AltoClef mod, Rotation rotation, boolean withBaritone) {
+        if (withBaritone) {
+            // Update the target rotation in the LookBehavior
+            mod.getClientBaritone().getLookBehavior().updateTarget(rotation, true);
+        }
+
+        // Set the player's yaw and pitch
+        mod.getPlayer().setYaw(rotation.getYaw());
+        mod.getPlayer().setPitch(rotation.getPitch());
+    }
+
+    /**
+     * Updates the player's look direction and rotation.
+     *
+     * @param mod      The instance of AltoClef.
+     * @param rotation The desired rotation to look at.
      */
     static void lookAt(AltoClef mod, Rotation rotation) {
         // Update the target rotation in the LookBehavior
@@ -536,6 +551,23 @@ public interface LookHelper {
      *
      * @param mod    The AltoClef instance.
      * @param toLook The position to look at.
+     * @param withBaritone Whether to use Baritone to look.
+     * @throws IllegalArgumentException if mod or toLook is null.
+     */
+    static void lookAt(AltoClef mod, Vec3d toLook, boolean withBaritone) {
+        if (mod == null || toLook == null) {
+            throw new IllegalArgumentException("mod and toLook cannot be null");
+        }
+
+        Rotation targetRotation = getLookRotation(mod, toLook);
+        lookAt(mod, targetRotation, withBaritone);
+    }
+
+    /**
+     * Adjusts the player's look direction to the specified target position.
+     *
+     * @param mod    The AltoClef instance.
+     * @param toLook The position to look at.
      * @throws IllegalArgumentException if mod or toLook is null.
      */
     static void lookAt(AltoClef mod, Vec3d toLook) {
@@ -544,7 +576,38 @@ public interface LookHelper {
         }
 
         Rotation targetRotation = getLookRotation(mod, toLook);
-        lookAt(mod, targetRotation);
+        lookAt(mod, targetRotation, true);
+    }
+
+    /**
+     * Adjusts the player's view to look at a specific location from a specific direction.
+     *
+     * @param mod    The AltoClef mod instance.
+     * @param toLook The position to look at.
+     * @param side   The direction to look from.
+     * @param withBaritone Whether to use Baritone to look.
+     */
+    static void lookAt(AltoClef mod, BlockPos toLook, Direction side, boolean withBaritone) {
+        // Calculate the center coordinates of the target location
+        double centerX = toLook.getX() + 0.5;
+        double centerY = toLook.getY() + 0.5;
+        double centerZ = toLook.getZ() + 0.5;
+
+        // Adjust the center coordinates based on the specified side
+        if (side != null) {
+            double offsetX = side.getVector().getX() * 0.5;
+            double offsetY = side.getVector().getY() * 0.5;
+            double offsetZ = side.getVector().getZ() * 0.5;
+            centerX += offsetX;
+            centerY += offsetY;
+            centerZ += offsetZ;
+        }
+
+        // Create a target vector based on the adjusted center coordinates
+        Vec3d target = new Vec3d(centerX, centerY, centerZ);
+
+        // Adjust the player's view to look at the target location
+        lookAt(mod, target, withBaritone);
     }
 
     /**
@@ -574,7 +637,18 @@ public interface LookHelper {
         Vec3d target = new Vec3d(centerX, centerY, centerZ);
 
         // Adjust the player's view to look at the target location
-        lookAt(mod, target);
+        lookAt(mod, target, true);
+    }
+
+    /**
+     * Looks at the specified block position.
+     *
+     * @param mod    The AltoClef instance.
+     * @param toLook The block position to look at.
+     * @param withBaritone Whether to use Baritone to look.
+     */
+    static void lookAt(AltoClef mod, BlockPos toLook, boolean withBaritone) {
+        lookAt(mod, toLook, null, withBaritone);
     }
 
     /**
@@ -584,7 +658,7 @@ public interface LookHelper {
      * @param toLook The block position to look at.
      */
     static void lookAt(AltoClef mod, BlockPos toLook) {
-        lookAt(mod, toLook, null);
+        lookAt(mod, toLook, null, true);
     }
 
     /**
